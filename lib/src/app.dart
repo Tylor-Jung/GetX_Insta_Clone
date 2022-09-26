@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instargram_clone/src/components/image_data.dart';
 import 'package:instargram_clone/src/controller/bottom_nav_controller.dart';
+import 'package:instargram_clone/src/pages/home.dart';
 
 // getx controller 셋팅방법
 // 1, controller 파일, controller class 생성
@@ -18,11 +19,10 @@ class App extends GetView<BottomNavController> {
       onWillPop: controller.willPopAction,
       child: Obx(
         () => Scaffold(
-          appBar: AppBar(),
           body: IndexedStack(
             index: controller.pageIndex.value,
             children: [
-              Container(child: Center(child: Text('HOME'))),
+              const Home(),
               Container(child: Center(child: Text('SEARCH'))),
               Container(child: Center(child: Text('UPLOAD'))),
               Container(child: Center(child: Text('ACTIVITY'))),
