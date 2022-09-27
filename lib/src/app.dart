@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:instargram_clone/src/components/image_data.dart';
 import 'package:instargram_clone/src/controller/bottom_nav_controller.dart';
 import 'package:instargram_clone/src/pages/home.dart';
+import 'package:instargram_clone/src/pages/search.dart';
 
 // getx controller 셋팅방법
 // 1, controller 파일, controller class 생성
@@ -23,7 +24,15 @@ class App extends GetView<BottomNavController> {
             index: controller.pageIndex.value,
             children: [
               const Home(),
-              Container(child: Center(child: Text('SEARCH'))),
+              Navigator(
+                key: controller
+                    .searchPageNavigationkey, //NestedRoute를 하기위한 Material 접근방법 ,, 순서 및 방법 암기
+                onGenerateRoute: (RouteSettings) {
+                  return MaterialPageRoute(
+                      builder: (context) => const Search());
+                },
+              ),
+              const Search(),
               Container(child: Center(child: Text('UPLOAD'))),
               Container(child: Center(child: Text('ACTIVITY'))),
               Container(child: Center(child: Text('MYPAGE'))),

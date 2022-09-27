@@ -46,9 +46,9 @@ class Home extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(children: [
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         _myStory(),
-        SizedBox(width: 5),
+        const SizedBox(width: 5),
         ...List.generate(
           // ... 은 '리스트 배열을 나열하겠다' 라는 의미
           100,
