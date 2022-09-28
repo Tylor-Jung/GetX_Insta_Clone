@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instargram_clone/src/components/image_data.dart';
 import 'package:instargram_clone/src/controller/bottom_nav_controller.dart';
+import 'package:instargram_clone/src/pages/active_history.dart';
 import 'package:instargram_clone/src/pages/home.dart';
 import 'package:instargram_clone/src/pages/search.dart';
 
@@ -32,8 +33,8 @@ class App extends GetView<BottomNavController> {
                       builder: (context) => const Search());
                 },
               ),
-              const Search(),
-              Container(child: Center(child: Text('UPLOAD'))),
+              Container(), //upload페이지는 따로 레이아웃이 추가되는 형식이라서 빈 container만 두고 내용들이 밀리지 않도록 한다.
+              const ActiveHistory(),
               Container(child: Center(child: Text('ACTIVITY'))),
               Container(child: Center(child: Text('MYPAGE'))),
             ],
