@@ -13,8 +13,16 @@ class UserRepository {
     if (data.size == 0) {
       return null;
     } else {
-      
       return IUser.fromJson(data.docs.first.data());
+    }
+  }
+
+  static Future<bool> signup(IUser user) async {
+    try {
+      await FirebaseFirestore.instance.collection('users').add(user.toMap());
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 }
