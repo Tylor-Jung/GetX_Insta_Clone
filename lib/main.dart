@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instargram_clone/root.dart';
-import 'package:instargram_clone/src/app.dart';
 import 'package:instargram_clone/src/binding/init_bindings.dart';
 
 Future<void> main() async {

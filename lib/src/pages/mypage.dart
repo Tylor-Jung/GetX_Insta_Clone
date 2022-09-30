@@ -1,24 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:instargram_clone/src/components/avatar_widget.dart';
 import 'package:instargram_clone/src/components/image_data.dart';
 import 'package:instargram_clone/src/components/user_card.dart';
+import 'package:instargram_clone/src/controller/auth_controller.dart';
+import 'package:instargram_clone/src/controller/mypage_controller.dart';
 
-class MyPage extends StatefulWidget {
-  const MyPage({
-    super.key,
-  });
-
-  @override
-  State<MyPage> createState() => _MyPageState();
-}
-
-class _MyPageState extends State<MyPage> with TickerProviderStateMixin {
-  late TabController tabController;
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(length: 2, vsync: this);
-  }
+class MyPage extends GetView<MypageController> {
+  const MyPage({super.key});
 
   Widget _statisticsOne(String title, int value) {
     return Column(
@@ -45,46 +34,46 @@ class _MyPageState extends State<MyPage> with TickerProviderStateMixin {
   Widget _infomation() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              AvatarWidget(
-                type: AvatarType.TYPE3,
-                thumbPath:
-                    'https://i.pinimg.com/originals/1d/fe/d1/1dfed1391d2b7de7015e76cb8d3a423a.jpg',
-                size: 80,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(child: _statisticsOne('Post', 15)),
-                    Expanded(child: _statisticsOne('Followers', 150)),
-                    Expanded(child: _statisticsOne('Following', 150))
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text.rich(
-            TextSpan(
-              text: '자기소개 :  ',
-              style: TextStyle(fontWeight: FontWeight.bold),
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 10),
+            Row(
               children: [
-                TextSpan(
-                  text:
-                      '안녕하세요 국민 여동생 아이유 입니다.안녕하세요 국민 여동생 아이유 입니다.안녕하세요 국민 여동생 아이유 입니다. \n안녕하세요 국민 여동생 아이유 입니다.',
-                  style: TextStyle(fontWeight: FontWeight.normal),
+                AvatarWidget(
+                  type: AvatarType.TYPE3,
+                  thumbPath: controller.targetUser.value!.thumbnail!,
+                  size: 80,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(child: _statisticsOne('Post', 15)),
+                      Expanded(child: _statisticsOne('Followers', 150)),
+                      Expanded(child: _statisticsOne('Following', 150))
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Text.rich(
+              TextSpan(
+                text: '자기소개 :  ',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(
+                    text: controller.targetUser.value!.description!,
+                    style: const TextStyle(fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -171,7 +160,7 @@ class _MyPageState extends State<MyPage> with TickerProviderStateMixin {
     return TabBar(
       indicatorColor: Colors.black,
       indicatorWeight: 1,
-      controller: tabController,
+      controller: controller.tabController,
       tabs: [
         Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
@@ -207,23 +196,25 @@ class _MyPageState extends State<MyPage> with TickerProviderStateMixin {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        title: GestureDetector(
-          onTap: () {},
-          child: Row(
-            children: [
-              Text(
-                '아이유 인스타',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        title: Obx(
+          () => GestureDetector(
+            onTap: () {},
+            child: Row(
+              children: [
+                Text(
+                  controller.targetUser.value!.nickName!,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: Colors.black54,
-              ),
-            ],
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.black54,
+                ),
+              ],
+            ),
           ),
         ),
         actions: [

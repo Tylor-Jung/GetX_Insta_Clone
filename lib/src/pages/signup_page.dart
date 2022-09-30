@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instargram_clone/src/controller/auth_controller.dart';
 import 'package:instargram_clone/src/model/instargram_user.dart';
+import 'package:quiver/time.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key, required this.uid});
@@ -13,6 +17,10 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   TextEditingController nickNameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  XFile? thumbnailXFile;
+
+  void update() => setState(() {});
 
   Widget _avatar() {
     return Column(
@@ -22,14 +30,25 @@ class _SignupPageState extends State<SignupPage> {
           child: SizedBox(
             height: 100,
             width: 100,
-            child: Image.asset(
-              'assets/images/default_image.png',
-              fit: BoxFit.cover,
-            ),
+            child: thumbnailXFile != null
+                ? Image.file(
+                    File(thumbnailXFile!.path),
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/images/default_image.png',
+                    fit: BoxFit.cover,
+                  ),
           ),
         ),
-        const SizedBox(height: 10),
-        ElevatedButton(onPressed: () {}, child: const Text('이미지 변경')),
+        const SizedBox(height: 15),
+        ElevatedButton(
+            onPressed: () async {
+              thumbnailXFile = await _picker.pickImage(
+                  source: ImageSource.gallery, imageQuality: 50);
+              update();
+            },
+            child: const Text('이미지 변경')),
       ],
     );
   }
@@ -93,7 +112,7 @@ class _SignupPageState extends State<SignupPage> {
                   uid: widget.uid,
                   nickName: nickNameController.text,
                   description: descriptionController.text);
-              AuthController.to.signup(signupUser);
+              AuthController.to.signup(signupUser, thumbnailXFile);
             },
             child: const Text('회원가입')),
       ),

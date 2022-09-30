@@ -16,7 +16,7 @@ class Upload extends GetView<UploadController> {
         height: width,
         color: Colors.grey,
         child: _photoWidget(
-          controller.selectedImage.value,
+          controller.selectedImage.value!,
           width.toInt(),
           builder: (data) {
             return Image.memory(
@@ -187,7 +187,7 @@ class Upload extends GetView<UploadController> {
   Widget _photoWidget(AssetEntity asset, int? size,
       {required Widget Function(Uint8List) builder}) {
     return FutureBuilder(
-      future: asset.thumbnailDataWithSize(ThumbnailSize(size!, size)),
+      future: asset.thumbnailDataWithSize(ThumbnailSize.square(size!)),
       builder: (_, AsyncSnapshot<Uint8List?> snapshot) {
         if (snapshot.hasData) {
           return builder(snapshot.data!);
@@ -203,31 +203,31 @@ class Upload extends GetView<UploadController> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
         backgroundColor: Colors.white,
+        elevation: 0,
         leading: GestureDetector(
           onTap: Get.back,
           child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: ImageData(
-              IconsPath.closeImage,
-              width: 50,
-            ),
+            child: ImageData(IconsPath.closeImage),
           ),
         ),
-        title: Text(
-          'New post',
+        title: const Text(
+          'New Post',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.black,
+          ),
         ),
         actions: [
           GestureDetector(
             onTap: () {},
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: ImageData(IconsPath.nextImage),
+              child: ImageData(IconsPath.nextImage, width: 50),
             ),
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(
