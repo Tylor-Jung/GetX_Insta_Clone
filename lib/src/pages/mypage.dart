@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:instargram_clone/src/components/avatar_widget.dart';
 import 'package:instargram_clone/src/components/image_data.dart';
 import 'package:instargram_clone/src/components/user_card.dart';
-import 'package:instargram_clone/src/controller/auth_controller.dart';
 import 'package:instargram_clone/src/controller/mypage_controller.dart';
 
 class MyPage extends GetView<MypageController> {
@@ -14,7 +13,7 @@ class MyPage extends GetView<MypageController> {
       children: [
         Text(
           value.toString(),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -22,7 +21,7 @@ class MyPage extends GetView<MypageController> {
         ),
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             color: Colors.black,
           ),

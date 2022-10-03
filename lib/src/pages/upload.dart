@@ -184,10 +184,10 @@ class Upload extends GetView<UploadController> {
     );
   }
 
-  Widget _photoWidget(AssetEntity asset, int? size,
+  Widget _photoWidget(AssetEntity asset, int size,
       {required Widget Function(Uint8List) builder}) {
     return FutureBuilder(
-      future: asset.thumbnailDataWithSize(ThumbnailSize(size!, size)),
+      future: asset.thumbnailDataWithSize(ThumbnailSize(size, size)),
       builder: (_, AsyncSnapshot<Uint8List?> snapshot) {
         if (snapshot.hasData) {
           return builder(snapshot.data!);
@@ -215,14 +215,14 @@ class Upload extends GetView<UploadController> {
             ),
           ),
         ),
-        title: Text(
+        title: const Text(
           'New post',
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: controller.gotoImageFilter,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: ImageData(IconsPath.nextImage),

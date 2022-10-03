@@ -3,9 +3,13 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:instargram_clone/src/components/avatar_widget.dart';
 import 'package:instargram_clone/src/components/image_data.dart';
+import 'package:instargram_clone/src/model/post.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class PostWidget extends StatelessWidget {
-  const PostWidget({super.key});
+  const PostWidget({Key? key, required this.post}) : super(key: key);
+
+  final Post post;
 
   Widget _header() {
     return Padding(
@@ -15,10 +19,9 @@ class PostWidget extends StatelessWidget {
         children: [
           AvatarWidget(
               type: AvatarType.TYPE3,
-              nickname: 'Tylor.JUNG',
+              nickname: post.userInfo!.nickName,
               size: 40,
-              thumbPath:
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7vojc0_0uNUmdWuhnjuvbxaXyMZxT5BckBQ&usqp=CAU'),
+              thumbPath: post.userInfo!.thumbnail!),
           GestureDetector(
             onTap: () {},
             child: Padding(
@@ -35,9 +38,7 @@ class PostWidget extends StatelessWidget {
   }
 
   Widget _image() {
-    return CachedNetworkImage(
-        imageUrl:
-            'https://i.pinimg.com/originals/1d/fe/d1/1dfed1391d2b7de7015e76cb8d3a423a.jpg');
+    return CachedNetworkImage(imageUrl: post.thumbnail!);
   }
 
   Widget _infoCount() {
@@ -79,13 +80,13 @@ class PostWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            '좋아요 150개',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Text(
+            '좋아요 ${post.likeCount ?? 0}개',
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           ExpandableText(
-            '컨텐츠 1입니다. \n컨텐츠 1입니다. \n컨텐츠 1입니다. \n컨텐츠 1입니다. \n',
-            prefixText: '행복한 아빠',
+            post.description ?? '',
+            prefixText: post.userInfo!.nickName,
             onPrefixTap: () {
               print('유저 페이지 이동');
             },
@@ -117,10 +118,10 @@ class PostWidget extends StatelessWidget {
 
   Widget _dataAgo() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Text(
-        '1일전',
-        style: TextStyle(fontSize: 11, color: Colors.grey),
+        timeago.format(post.createAt!),
+        style: const TextStyle(fontSize: 11, color: Colors.grey),
       ),
     );
   }
